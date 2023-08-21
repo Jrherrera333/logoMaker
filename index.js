@@ -1,12 +1,45 @@
 const fs = require("fs")
-let SVG = require ("./lib/svg")
+const readline = require('readline');
+const { Circle, Triangle, Square } = require('./lib/shapes');
 
-let example = new SVG("SVG", "pink", "circle", "purple");
+const rL = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 
-fs.writefile("shape.svg", example.markup, function(err){
-    if(err)
-    console.log(err)
+console.log('Choose the shape of the logo:');
+console.log('1. Circle');
+console.log('2. Triangle');
+console.log('3. Square');
 
-})
-//get inquirer running with this inquirer.front and pass the values from inquirer into here.
-//then when you get the inquirer running with the with the colors then you can do the test
+rL.question('Enter the number corresponding the shape: ', (choice) => {
+    if (choice === '1') {
+        createLogo(Circle);
+    } else if (choice === '2') {
+        createLogo(Triangle);
+    } else if (choice === '3') {
+        createLogo(Square);
+    } else {
+        console.log('Invalid choice.');
+        rL.close();
+    }
+});
+
+function createLogo(ShapeClass) {
+    // console.log("CHOICE: "+ShapeClass);
+    rL.question('Enter 3 character text for logo: ', (text) => {
+        rL.question('Enter the color of the logo name: ', (textColor) => {
+            rL.question('Enter the color of the shape: ', (shapeColor) => {
+                const shape = new ShapeClass(shapeColor, textColor, text);
+                const svgContent = shape.render();
+
+                //save svg content
+                fs.writeFileSync('logo.svg', svgContent);
+
+                console.log('Generated logo.svg file');
+                rL.close();
+            });
+        });
+    });
+}
+
