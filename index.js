@@ -10,12 +10,12 @@ const rL = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
 });
-//display the option's text for the user
+//display the first prompt option's text for the user
 console.log('Choose the shape of the logo:');
 console.log('1. Circle');
 console.log('2. Triangle');
 console.log('3. Square');
-//display input for the user
+//display the first input for the user
 rL.question('Enter the number corresponding the shape: ', (choice) => {
     if (choice === '1') {
         createLogo(Circle);
@@ -28,7 +28,7 @@ rL.question('Enter the number corresponding the shape: ', (choice) => {
         rL.close();
     }
 });
-//ask the user for input to create a logo
+//display the last 3 inputs to create the logo
 function createLogo(ShapeClass) {
     rL.question('Enter 3 character text for logo: ', (text) => {
         rL.question('Enter the color of the logo name: ', (textColor) => {
